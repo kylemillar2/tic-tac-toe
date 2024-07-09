@@ -8,6 +8,11 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <div id="player-inputs">
+        <label for="player-x">Player X: <input type="text" id="player-x"></label>
+        <label for="player-o">Player O: <input type="text" id="player-o"></label>
+        <button id="start-btn">Start</button>
+    </div>
     <div id="board">
         <div class="square" id="square-0-0"></div>
         <div class="square" id="square-0-1"></div>
@@ -19,5 +24,7 @@
         <div class="square" id="square-2-1"></div>
         <div class="square" id="square-2-2"></div>
     </div>
+    <div id="current-player"></div>
+    <div id="winner"></div>
 </body>
 </html>

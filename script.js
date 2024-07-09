@@ -1,25 +1,28 @@
 class GameController {
-    constructor() {
+    constructor(playerX, playerO) {
         this.playRound = this.playRound.bind(this);
+
+        this.players = new Map();
+        this.players.set("X", playerX);
+        this.players.set("O", playerO);
 
         let squares = [...(document.querySelectorAll(".square"))];
         this.board = [];
         while(squares.length > 0) {
             this.board.push(squares.splice(0,3));
         }
-        console.log(this.board);
         this.currentPlayer = "X";
+        document.querySelector("#current-player").textContent = `${this.players.get(this.currentPlayer)}'s turn`;
     }
     
     playRound(event) {
-        console.log(this);
         event.target.textContent = this.currentPlayer;
         this.checkWins();
-        this.changePlayer();
     }
 
     changePlayer() {
         this.currentPlayer = this.currentPlayer == "X" ? "O" : "X";
+        document.querySelector("#current-player").textContent = `${this.players.get(this.currentPlayer)}'s turn`;
     }
 
     checkWins() {
@@ -39,7 +42,6 @@ class GameController {
                     break;
                 }
                 inARow++;
-                console.log(inARow);
             }
 
             if (inARow == cols) {
@@ -100,10 +102,13 @@ class GameController {
                 }
             }
         }
+
+        this.changePlayer();
     }
 
     endGame() {
-        console.log(`${this.currentPlayer} won`);
+        document.querySelector("#winner").textContent = `${this.players.get(this.currentPlayer)} wins`;
+        document.querySelector("#current-player").textContent = "";
         document.querySelectorAll(".square").forEach((square) => {
             square.removeEventListener("click", this.playRound);
         });
@@ -111,12 +116,21 @@ class GameController {
 }
 
 function startGame() {
-    const game = new GameController();
+    const playerX = document.querySelector("#player-x");
+    const playerO = document.querySelector("#player-o");
+    
+    if (!playerX.value || !playerO.value) {
+        return;
+    }
 
+    const game = new GameController(playerX.value, playerO.value);
+    playerX.disabled = true;
+    playerO.disabled = true;
     document.querySelectorAll(".square").forEach((square) => {
         square.addEventListener("click", game.playRound, { once: true }
         );
     });
 }
 
-startGame();
+const startButton = document.querySelector("#start-btn");
+startButton.addEventListener("click", startGame);
