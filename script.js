@@ -115,7 +115,7 @@ class GameController {
     }
 }
 
-function startGame() {
+let startGame = () => {
     const playerX = document.querySelector("#player-x");
     const playerO = document.querySelector("#player-o");
     
@@ -132,5 +132,23 @@ function startGame() {
     });
 }
 
+let resetGame = () => {
+    document.querySelectorAll(".square").forEach((square) => {
+        square.textContent = "";
+        square.removeEventListener("click", this.playRound);
+    });
+    const playerX = document.querySelector("#player-x");
+    const playerO = document.querySelector("#player-o");
+    playerX.value = "";
+    playerO.value = "";
+    playerX.disabled = false;
+    playerO.disabled = false;
+    document.querySelector("#winner").textContent = "";
+    document.querySelector("#current-player").textContent = "";
+}
+
 const startButton = document.querySelector("#start-btn");
 startButton.addEventListener("click", startGame);
+
+const resetButton = document.querySelector("#reset-btn");
+resetButton.addEventListener("click", resetGame);
